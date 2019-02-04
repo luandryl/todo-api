@@ -14,7 +14,7 @@ const statusRestriction = {
 }
 
 const todoSchema = new mongoose.Schema({
-    task: taskRestriction,
+    data: taskRestriction,
     status: statusRestriction
   })
   

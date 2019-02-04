@@ -1062,7 +1062,7 @@ const statusRestriction = {
 }
 
 const todoSchema = new __WEBPACK_IMPORTED_MODULE_0_mongoose___default.a.Schema({
-    task: taskRestriction,
+    data: taskRestriction,
     status: statusRestriction
   })
   
