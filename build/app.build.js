@@ -581,6 +581,8 @@ router.post('/signup/', (req, res) => {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__controllers_Todo_Controller__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_passport__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_passport___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_passport__);
 
 
 
@@ -590,24 +592,32 @@ let router = __WEBPACK_IMPORTED_MODULE_0_express___default.a.Router()
 let todo = new __WEBPACK_IMPORTED_MODULE_1__controllers_Todo_Controller__["a" /* default */]()
 
 
+const protect = __WEBPACK_IMPORTED_MODULE_2_passport___default.a.authenticate('jwt', {
+	session: false
+})
 
-router.get('/', (req, res) => {
+
+router.get('/', protect, (req, res) => {
     todo.getAll(req, res);
 })
 
-router.post('/', (req, res) => {
+router.post('/', protect, (req, res) => {
     todo.save(req, res)
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', protect, (req, res) => {
     todo.getById(req, res)
 })
  
-router.put('/:_id', (req, res) => {
+router.put('/:_id', protect, (req, res) => {
     todo.updateById(req, res)
 })
 
-router.delete('/:id', (req, res) => {
+router.get('/task_list/:_user', protect, (req, res) => {
+    todo.byUser(req, res)
+})
+
+router.delete('/:id', protect, (req, res) => {
     todo.removeById(req, res)
 })
 
@@ -926,6 +936,24 @@ class AuthController {
 class TodoController extends __WEBPACK_IMPORTED_MODULE_0__Base_Controller__["a" /* default */] {
     constructor() {
         super(__WEBPACK_IMPORTED_MODULE_1__models_Todo_Model__["a" /* default */])
+    }
+
+    byUser (req, res) {
+        let query = {
+            _user: req.params._user
+        }
+        new __WEBPACK_IMPORTED_MODULE_1__models_Todo_Model__["a" /* default */]().getByField(query).then((data) => {
+            console.log(data)
+            if(data) {
+                res.send(data);
+                res.status(200)
+                res.end()
+            }
+        }).catch(err => {
+            res.json(err);
+            res.status(400);
+            res.end();
+        })
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = TodoController;
