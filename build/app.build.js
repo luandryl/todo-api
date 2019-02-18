@@ -1049,6 +1049,12 @@ class TodoModel extends __WEBPACK_IMPORTED_MODULE_1__Base_Model__["a" /* default
 
 
 
+const userRestriction = {
+	type: __WEBPACK_IMPORTED_MODULE_0_mongoose___default.a.Schema.Types.ObjectId,
+	ref: 'User',
+	required: true
+}
+
 const taskRestriction = {
     type: String,
     required: [true, 'No task given'],
@@ -1062,9 +1068,10 @@ const statusRestriction = {
 }
 
 const todoSchema = new __WEBPACK_IMPORTED_MODULE_0_mongoose___default.a.Schema({
+    _user: userRestriction,
     data: taskRestriction,
     status: statusRestriction
-  })
+})
   
   /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0_mongoose___default.a.model('Todo', todoSchema));
 
