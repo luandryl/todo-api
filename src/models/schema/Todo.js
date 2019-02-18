@@ -1,6 +1,12 @@
 'use strict'
 import mongoose from 'mongoose'
 
+const userRestriction = {
+	type: mongoose.Schema.Types.ObjectId,
+	ref: 'User',
+	required: true
+}
+
 const taskRestriction = {
     type: String,
     required: [true, 'No task given'],
@@ -14,8 +20,9 @@ const statusRestriction = {
 }
 
 const todoSchema = new mongoose.Schema({
+    _user: userRestriction,
     data: taskRestriction,
     status: statusRestriction
-  })
+})
   
   export default mongoose.model('Todo', todoSchema)
